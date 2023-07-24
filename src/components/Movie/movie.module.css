@@ -1,0 +1,57 @@
+h2 {
+    margin-top: 0;
+}
+
+h3 {
+    margin-top: 10px;
+}
+img {
+    border-radius: 4px;
+}
+
+p {
+    margin: 0;
+}
+
+.movie {
+    display: flex;
+    gap: 20px;
+    padding-bottom: 10px;
+    border-bottom: solid 1px lightgrey;
+    box-shadow: 0px 0px 0px px rgb(128, 128, 128, 0.5) ;
+}
+
+.links {
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    font-size: medium;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    max-width: 100%;
+    padding: 0;
+}
+
+.card{
+    max-width: 120px;
+    display: flex;
+    flex-direction: column;
+}
+
+.name{
+    margin-top: 5px;
+    font-size: 15px;
+}
+
+.character {
+    font-size: 12px;
+}
+
+span {
+    color: gray;
+}

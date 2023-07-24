@@ -1,0 +1,12 @@
+h1 {
+    margin-left: 10px;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+}
+
+.links {
+    margin-bottom: 3px;
+}
