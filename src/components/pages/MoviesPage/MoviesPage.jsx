@@ -1,44 +1,58 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { requestSearch } from "../../api";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSearchParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import css from "./moviesPage.module.css"
 
-export const MoviesPage = () => {
+const MoviesPage = () => {
 
     const [querySearch, setQuerySearch] = useState('');
     const [searchMovies, setSearchMovies] = useState([]);
     const [error, setError] = useState('');
     const [searchParams, setSearchParams] = useSearchParams();
-    searchParams.get("query");
+    const searchValue = searchParams.get('query');
+    const location = useLocation();
+    const firstRender = useRef(true)
 
     const handleChange = e => {
         setQuerySearch(e.target.value);
+        firstRender.current = false;
     };
 
-    const handleSubmit = async e => {
+    const handleSubmit = e => {
         e.preventDefault();
-
-        if (querySearch === '') {
-            return toast.error('Please enter keywords for search');
-        } else {
-            try {
-                const response = await requestSearch(querySearch);
+        getMovieBySearch(querySearch)
+       
+    }
+    const getMovieBySearch = useCallback(async (query) => {
+        if (querySearch || searchValue) {
+ try {
+                const response = await requestSearch(query);
                 const searchMoviesData = response.results;
+
                 if (searchMoviesData.length === 0) {
                     return toast.error('Sorry, we couldn\'t find any movies. Please, try again.');
                 } else {
+                    setSearchParams({ query: querySearch || searchValue});
                     setSearchMovies(searchMoviesData);
-                    setSearchParams({ query: querySearch });
                 }
             } catch (error) {
                 setError(error.message);
             } finally {
                 setQuerySearch('');
             }
+
+        } else {
+            return toast.error('Please enter keywords for search');
         }
-    }
+    }, [querySearch,searchValue, setSearchMovies, setSearchParams]);
+
+    useEffect(() => {
+        if (firstRender.current === true && searchValue) {
+            getMovieBySearch(searchValue);
+        }
+    }, [searchValue, getMovieBySearch, setSearchParams]);
 
     return (
         <div>
@@ -47,7 +61,7 @@ export const MoviesPage = () => {
                     className={css.input}
                     type="text"
                     autoComplete="off"
-                    autoFocus
+                    name="query"
                     placeholder="Search"
                     value={querySearch}
                     onChange={handleChange}
@@ -58,7 +72,7 @@ export const MoviesPage = () => {
             {searchMovies.length > 0 ? (
                 <ul className={css.page}>
                     {searchMovies.map((film) => (
-                        <Link to={`/movies/${film.id}`} key={film.id} className={css.links}>{film.title}</Link>
+                        <Link to={`/movies/${film.id}`} key={film.id} className={css.links} state={location}>{film.title}</Link>
                     ))}
                 </ul>
             ) : (
@@ -68,3 +82,5 @@ export const MoviesPage = () => {
         </div>
     )
 }
+
+export default MoviesPage;

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { requestMovies } from '../../api'
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import css from './homePage.module.css'
 
-export const HomePage = () => {
+const HomePage = () => {
     const [trendingFilms, setTrendingFilms] = useState([]);
     const [error, setError] = useState('');
+    const location = useLocation();
 
     const getTrendingToday = async () => {
         try {
@@ -28,7 +29,7 @@ export const HomePage = () => {
                 <h1>Trending today</h1>
                 <ul className={css.page}>
                     {trendingFilms.map((film) => (
-                        <Link to={`/movies/${film.id}`} key={film.id} className={css.links}>{film.title}</Link>
+                        <Link to={`/movies/${film.id}`} key={film.id} className={css.links} state={location}>{film.title}</Link>
                     ))}
                 </ul>
             </div>
@@ -39,3 +40,5 @@ export const HomePage = () => {
 );
 
 } 
+
+export default HomePage;

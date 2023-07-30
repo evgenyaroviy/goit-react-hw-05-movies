@@ -1,42 +1,53 @@
-import { Link, Outlet, useParams } from "react-router-dom"
+import { Link, Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
 import { requestDetails } from "../api"
 import { Movie } from "../Movie/Movie"
-import { Button } from "../Button/Button"
 import { useEffect, useState } from "react"
-import css from "../Movie/movie.module.css"
+import css from "./movieDetails.module.css"
 
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
     const [movie, setMovie] = useState(null);  
-    const [isLoading, setIsLoading] = useState(false)
     const { movie_id } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [previousPath, setPreviousPath] = useState('');
+    const handleBackBtn = () => {
+        navigate(previousPath)
+    }
+
 
 useEffect(() => {
     const detailsMovie = async () => {
         try {
-            setIsLoading(true)
             const data = await requestDetails(movie_id)
             setMovie(data)
             
         } catch (error) {
             console.log(error.message);
         } finally {
-            setIsLoading(false)
         }
     }
     detailsMovie()
-}, [movie_id])
+    setPreviousPath(location.state);
+}, [movie_id, location.state])
+
+    if (movie) {
+        if (!Object.keys(movie).length) {
+    return <h2>Loading...</h2>;
+    }}
     
     return (
         <div>
-            {isLoading && <h2>Loading...</h2>}
-            <Button />
+            <button type="button" onClick={handleBackBtn}>Go back</button>
             {movie && <Movie movie={movie} />}
+            <h3>Additional information</h3>
             <div className={css.links}>
-                <Link to={`cast`} key={`${movie_id}-cast`} className={css.links}>Cast</Link>
-                <Link to={`reviews`} key={`${movie_id}-reviews`} className={css.links}>Reviews</Link>
+                <Link to={`cast`} key={`${movie_id}-cast`} className={css.links} state={previousPath}>Cast</Link>
+                <Link to={`reviews`} key={`${movie_id}-reviews`} className={css.links} state={previousPath}>Reviews</Link>
             </div>
             <Outlet />
       </div>
     )
 }
+
+export default MovieDetails;

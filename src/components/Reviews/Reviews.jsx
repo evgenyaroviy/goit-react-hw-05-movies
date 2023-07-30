@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 
-export const Reviews = () => {
+const Reviews = () => {
 
      const [reviews, setReviews] = useState(null); 
     const [isLoading, setIsLoading] = useState(false)
@@ -16,7 +16,6 @@ useEffect(() => {
             setIsLoading(true)
             const data = await requestReviews(movie_id)
             const dataReview = data.results;
-            console.log(dataReview);
             setReviews(dataReview)
             
         } catch (error) {
@@ -30,7 +29,7 @@ useEffect(() => {
 }, [movie_id])
 
     return (
-        <>
+        <div>
         {isLoading && <p>Loading...</p>}
         {reviews && reviews.length > 0 ? (
             reviews.map(review => {
@@ -47,7 +46,9 @@ useEffect(() => {
         ) : (
             <h3>We don't have any reviews for this movie</h3>
         )}
-    </>
+    </div>
 );
 
 }
+
+export default Reviews;

@@ -2,11 +2,27 @@ h1 {
     margin-left: 10px;
 }
 
+input {
+height: 23px;
+margin-right: 5px;
+}
+
 .page {
     display: flex;
     flex-direction: column;
 }
 
 .links {
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+    font-size: medium;
+    color: black;
+    text-decoration: none;
+    transform-origin: center;
+    transform: translate(0) scale(1);
+}
+
+.links:hover,
+.links:focus {
+    color: orangered;
+    transform: translate(1%, 1%) scale(1.03);
 }

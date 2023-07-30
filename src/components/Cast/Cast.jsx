@@ -3,7 +3,7 @@ import css from '../Movie/movie.module.css'
 import { requestCredits } from '../api'
 import { useParams } from 'react-router-dom';
 
-export const Cast = () => {
+const Cast = () => {
 
     const [casts, setCasts] = useState(null); 
     const [isLoading, setIsLoading] = useState(false)
@@ -16,7 +16,6 @@ useEffect(() => {
             setIsLoading(true)
             const data = await requestCredits(movie_id)
             const dataCast = data.cast;
-            console.log(dataCast);
             setCasts(dataCast)
             
         } catch (error) {
@@ -30,7 +29,7 @@ useEffect(() => {
 }, [movie_id])
 
     return (
-        <>
+        <div>
             <ul className={css.list}>
                 {isLoading && <h2>Loading...</h2>}
         
@@ -45,6 +44,8 @@ useEffect(() => {
                     </li>
            })} 
             </ul>        
-        </>
+        </div>
     )
 }
+
+export default Cast;
