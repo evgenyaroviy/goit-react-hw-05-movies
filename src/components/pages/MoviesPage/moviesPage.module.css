@@ -3,8 +3,9 @@ h1 {
 }
 
 input {
-height: 23px;
-margin-right: 5px;
+    width: 500px;
+    height: 27px;
+    margin-right: 5px;
 }
 
 .page {
