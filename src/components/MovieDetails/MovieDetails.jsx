@@ -11,7 +11,7 @@ const MovieDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     // console.log(location);
-    const [previousPath, setPreviousPath] = useState(location.state ? location.state.pathname : "/");
+    const [previousPath, setPreviousPath] = useState(location.state?.from ?? '/');
     console.log(previousPath);
     const handleBackBtn = () => {
         console.log(previousPath);
