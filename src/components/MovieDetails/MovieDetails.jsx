@@ -11,7 +11,7 @@ const MovieDetails = () => {
     const navigate = useNavigate();
     const location = useLocation();
     // console.log(location);
-    const [previousPath, setPreviousPath] = useState(location.state?.from ?? '/');
+    const [previousPath, setPreviousPath] = useState('/');
     console.log(previousPath);
     const handleBackBtn = () => {
         console.log(previousPath);
@@ -31,7 +31,7 @@ useEffect(() => {
         }
     }
     detailsMovie()
-    setPreviousPath(location.state);
+    setPreviousPath(location.state?.from ?? '/');
 }, [movie_id, location.state])
 
     if (movie) {
